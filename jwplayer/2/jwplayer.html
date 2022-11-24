@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CDNBye JWPlayer Demo</title>
+    <!-- CDNBye Plugin -->
+    <script src="//cdn.jsdelivr.net/npm/cdnbye@latest"></script>
+    <!-- JWPlayer Hlsjs Provider -->
+    <script src="//cdn.jsdelivr.net/npm/cdnbye@latest/dist/jwplayer.provider.hls.js"></script>
+    <!-- JW Player Builds -->
+    <script src="//ssl.p.jwpcdn.com/player/v/8.21.2/jwplayer.js"></script>
+    <!-- P2P Plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/p2p-media-loader-core@latest/build/p2p-media-loader-core.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/p2p-media-loader-hlsjs@latest/build/p2p-media-loader-hlsjs.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/p2p-media-loader-shaka@latest/build/p2p-media-loader-shaka.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <!-- JW Player Builds -->
+    <script src="https://content.jwplatform.com/libraries/aG3IMhIy.js"></script>
+    <!-- JWPlayer Hlsjs Provider -->
+    <script src="https://novage.com.ua/assets/hola-jwplayer-hlsjs.min.js"></script>
+    <div id="player">Loading the player...</div>
+</head>
+
+<body>
+    <header></header>
+
+    <script>
+        var engine = new p2pml.hlsjs.Engine({
+            loader: {
+                liveSyncDuration: 300,
+                cachedSegmentExpiration: 600000,
+                cachedSegmentsCount: 75,
+                requiredSegmentsPriority: 1,
+                useP2P: 'true',
+                simultaneousP2PDownloads: 5,
+                httpDownloadProbability: 0.06,
+                httpDownloadProbabilityInterval: 500,
+                bufferedSegmentsCount: 30,
+                trackerAnnounce: ["wss://tracker.btorrent.xyz/", "wss://tracker.openwebtorrent.com/"],
+                webRtcMaxMessageSize: 64 * 1024 - 1,
+                p2pSegmentDownloadTimeout: 20000,
+            }
+        });
+        var player = jwplayer("player");
+        player.setup({
+            autostart: true,
+            sources: [{
+                file: "https://fansubs.tv/upload/videos/2020/12/1hyPdHKFFXJx5CMVm5Ma_25_0890a6b9a682939e8582ac0a5cb28e96_video_1080p_converted.mp4",
+                type: "mp4",
+                label: 'FHD',
+                res: 1080,
+
+            },
+            {
+                file: "https://fansubs.tv/upload/videos/2020/12/1hyPdHKFFXJx5CMVm5Ma_25_0890a6b9a682939e8582ac0a5cb28e96_video_720p_converted.mp4",
+                type: "mp4",
+                label: '720',
+                res: 720,
+            }],
+        });
+
+        player.hola_config = {
+            liveSyncDuration: 300,
+            maxBufferSize: 100 * 100,
+            maxBufferLength: 500,
+            maxMaxBufferLength: 500,
+            loader: engine.createLoaderClass()
+        };
+
+        var provider = require("@hola.org/jwplayer-hlsjs");
+        provider.attach();
+        p2pml.hlsjs.initJwPlayer(player, {
+            liveSyncDurationCount: 90,
+            loader: engine.createLoaderClass()
+        });
+
+        /* p2pml.hlsjs.initJwPlayer(player, {
+            liveSyncDurationCount: 60,
+            loader: engine.createLoaderClass()
+        }); */
+    </script>
+</body>
+
+</html>
