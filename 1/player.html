@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CDNBye JWPlayer Demo</title>
+    <!-- CDNBye Plugin -->
+    <script src="//cdn.jsdelivr.net/npm/cdnbye@latest"></script>
+    <!-- JWPlayer Hlsjs Provider -->
+    <script src="//cdn.jsdelivr.net/npm/cdnbye@latest/dist/jwplayer.provider.hls.js"></script>
+    <!-- JW Player Builds -->
+    <script src="//ssl.p.jwpcdn.com/player/v/8.21.2/jwplayer.js"></script>
+    <div id="demoplayer"></div>
+</head>
+
+<body>
+    <header></header>
+    <script>
+        jwplayer.key = "uoW6qHjBL3KNudxKVnwa3rt5LlTakbko9e6aQ6VUyKQ=";
+        jwplayer('demoplayer').setup({
+            sources: [{
+                file: "https://fansubs.tv/upload/videos/2020/12/1hyPdHKFFXJx5CMVm5Ma_25_0890a6b9a682939e8582ac0a5cb28e96_video_1080p_converted.mp4",
+                type: "mp4",
+                label: 'FHD',
+                res: 1080,
+
+            },
+            {
+                file: "https://fansubs.tv/upload/videos/2020/12/1hyPdHKFFXJx5CMVm5Ma_25_0890a6b9a682939e8582ac0a5cb28e96_video_720p_converted.mp4",
+                type: "mp4",
+                label: '720',
+                res: 720,
+            }],
+            width: 1302,
+            poster: "https://fansubs.tv/upload/photos/2020/12/1b2a6be9deba0b1f3faec5e3d88e5ef40c5a1f70oJlbV3evWslYTd2hM6g7.video_thumb_8018_477.66666666667.jpeg",
+            height: 726,
+            autostart: false,
+            hlsjsConfig: {
+                debug: false,
+                // Other hlsjsConfig options provided by hls.js
+                p2pConfig: {
+                    live: true,        // set false in vod mode
+                    // announceLocation: 'hk',        // if using Hongkong tracker
+                    // announceLocation: 'us',        // if using USA tracker
+                    // Other p2pConfig options provided by CDNBye
+                }
+            },
+        });
+
+        jwplayer().on('play', function () {
+            jwplayer().hls.p2pEngine.on('stats', function ({ totalHTTPDownloaded, totalP2PDownloaded }) {
+                // get totalHTTPDownloaded and totalP2PDownloaded here
+            })
+        })
+    </script>
+</body>
+
+</html>
